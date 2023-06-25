@@ -19,7 +19,8 @@ public class TransactionHistory {
         return transactions;
     }
 
-    public List<Transaction> getHistory(Long accountNumber, LocalDate startDate, LocalDate endDate) {
+    public List<Transaction> getHistory(
+            Long accountNumber, LocalDate startDate, LocalDate endDate) {
         return transactionRepository.findByAccountBetweenDates(accountNumber, startDate, endDate);
     }
 }

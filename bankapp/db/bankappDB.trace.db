@@ -1,6 +1,0 @@
-2023-06-22 23:15:38 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
-SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]
-2023-06-22 23:16:46 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "accounts" not found (candidates are: "ACCOUNTS"); SQL statement:
-UPDATE "accounts" SET "BALANCE" = ?, "CURRENCY" = ? WHERE "accounts"."ACCOUNT_NUMBER" = ? [42103-214]

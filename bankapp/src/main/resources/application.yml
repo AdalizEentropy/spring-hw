@@ -7,9 +7,9 @@ bankapp:
 
 spring:
   datasource:
-    url: jdbc:h2:file:./db/bankappDB
-#    driverClassName: org.h2.Driver
-    username: sa
+    url: jdbc:mysql://localhost:3306/bankappdb
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: user
     password: password
 
 logging:

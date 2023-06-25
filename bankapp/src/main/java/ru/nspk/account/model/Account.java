@@ -21,7 +21,10 @@ public class Account implements Persistable<Long> {
     @Id private final long accountNumber;
     private double balance;
     private final int currency;
-    @MappedCollection(idColumn = "ACCOUNT_NUMBER") private Set<BalanceHistoryRecord> balanceHistoryRecords;
+
+    @MappedCollection(idColumn = "ACCOUNT_NUMBER")
+    private Set<BalanceHistoryRecord> balanceHistoryRecords;
+
     @Transient private List<Card> cards;
     @Transient private final boolean isNew;
 

@@ -2,16 +2,11 @@ package ru.nspk;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static ru.nspk.util.CreateTestAccounts.createAccountReceiver;
 import static ru.nspk.util.CreateTestAccounts.createAccountSender;
 import static ru.nspk.util.CreateTestTransactions.createDto;
 
 import java.time.LocalDate;
-import java.util.List;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +18,7 @@ import org.springframework.test.context.event.RecordApplicationEvents;
 import org.springframework.transaction.annotation.Transactional;
 import ru.nspk.account.model.Account;
 import ru.nspk.account.service.AccountService;
+import ru.nspk.base.BasePersistenceTest;
 import ru.nspk.card.model.CardProgram;
 import ru.nspk.exception.InvalidDataException;
 import ru.nspk.exception.NotEnoughMoneyException;
@@ -30,12 +26,10 @@ import ru.nspk.transaction.TransactionProperties;
 import ru.nspk.transaction.event.TrxLoggerEvent;
 import ru.nspk.transaction.service.TransactionService;
 
-@SpringBootTest
 @ActiveProfiles("prod")
 @RecordApplicationEvents
-@AutoConfigureTestDatabase
 @Transactional
-class BankAppIntegrationTest {
+class BankAppIntegrationTest extends BasePersistenceTest {
     @Autowired AccountService accountService;
     @Autowired TransactionService transactionService;
     @Autowired TransactionProperties properties;
@@ -139,7 +133,7 @@ class BankAppIntegrationTest {
         var account = accountService.addCard(acctFrom, CardProgram.GOLD);
 
         assertThat(account.getCards()).hasSize(1);
-        assertThat(account.getCards().get(0).cardNumber().length()).isEqualTo(16);
+        assertThat(account.getCards().get(0).cardNumber()).hasSize(16);
         assertThat(account.getCards().get(0).cardNumber()).startsWith("48211212");
     }
 
@@ -166,6 +160,23 @@ class BankAppIntegrationTest {
     @Test
     void showEmptyHistory() {
         var history = transactionService.getAllHistory();
+
+        assertThat(history).isEmpty();
+    }
+
+    @Test
+    void showHistoryWithAccount() {
+        transactionService.createTransaction(createDto(1234567, 7654321, 100, 643));
+        transactionService.createTransaction(createDto(7654321, 1234567, 500, 643));
+        var history = transactionService.getHistory(1234567L, LocalDate.now().minusDays(1), LocalDate.now().plusDays(1));
+
+        assertThat(history).hasSize(2);
+    }
+
+    @Test
+    void notShowHistoryWithAccount_beforeTransaction() {
+        transactionService.createTransaction(createDto(1234567, 7654321, 100, 643));
+        var history = transactionService.getHistory(1234567L, LocalDate.now().minusDays(2), LocalDate.now().minusDays(1));
 
         assertThat(history).isEmpty();
     }

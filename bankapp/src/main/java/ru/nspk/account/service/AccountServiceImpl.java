@@ -42,7 +42,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     public Account getAccount(long accountId) {
-        return accountRepository.findById(accountId)
+        return accountRepository
+                .findById(accountId)
                 .orElseThrow(
                         () ->
                                 new InvalidDataException(

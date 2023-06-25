@@ -1,18 +1,15 @@
 package ru.nspk.account.service;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.stereotype.Service;
-
-import ru.nspk.account.model.Account;
-import ru.nspk.account.model.BalanceHistoryRecord;
-import ru.nspk.account.storage.BalanceHistoryRepository;
-
 import java.time.Clock;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import ru.nspk.account.model.Account;
+import ru.nspk.account.model.BalanceHistoryRecord;
+import ru.nspk.account.storage.BalanceHistoryRepository;
 
 @Service
 @RequiredArgsConstructor

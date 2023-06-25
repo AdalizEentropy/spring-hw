@@ -70,10 +70,8 @@ public class TransactionServiceProd implements TransactionService {
                         transaction.getCurrency(),
                         true);
 
-        accountService.changeBalance(
-                acctTo, reverse.getAmount(), BalanceOperation.DEC);
-        accountService.changeBalance(
-                acctFrom, reverse.getAmount(), BalanceOperation.INC);
+        accountService.changeBalance(acctTo, reverse.getAmount(), BalanceOperation.DEC);
+        accountService.changeBalance(acctFrom, reverse.getAmount(), BalanceOperation.INC);
         trxLoggerPublisher.publishEvent("Transaction reversed!");
         return mapper.toTransactionRespDto(transactionRepository.save(reverse));
     }

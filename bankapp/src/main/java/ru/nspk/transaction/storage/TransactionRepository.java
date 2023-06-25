@@ -1,13 +1,11 @@
 package ru.nspk.transaction.storage;
 
-import org.springframework.data.jdbc.repository.query.Query;
-import org.springframework.data.repository.CrudRepository;
-
-import org.springframework.data.repository.query.Param;
-import ru.nspk.transaction.model.Transaction;
-
 import java.time.LocalDate;
 import java.util.List;
+import org.springframework.data.jdbc.repository.query.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+import ru.nspk.transaction.model.Transaction;
 
 public interface TransactionRepository extends CrudRepository<Transaction, Long> {
 

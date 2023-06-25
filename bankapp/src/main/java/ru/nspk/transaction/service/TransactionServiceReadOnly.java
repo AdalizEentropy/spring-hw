@@ -31,7 +31,9 @@ public class TransactionServiceReadOnly implements TransactionService {
         return mapper.toListTransactionRespDto(history.getAllHistory());
     }
 
-    public List<TransactionRespDto> getHistory(Long accountNumber, LocalDate startDate, LocalDate endDate) {
-        return mapper.toListTransactionRespDto(history.getHistory(accountNumber, startDate, endDate));
+    public List<TransactionRespDto> getHistory(
+            Long accountNumber, LocalDate startDate, LocalDate endDate) {
+        return mapper.toListTransactionRespDto(
+                history.getHistory(accountNumber, startDate, endDate));
     }
 }

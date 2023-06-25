@@ -6,6 +6,9 @@ import java.util.Optional;
 import org.springframework.stereotype.Component;
 import ru.nspk.account.model.Account;
 
+/**
+ * @deprecated: will use jdbc
+ */
 @Component
 @Deprecated(forRemoval = true)
 public class InMemoryAccountStorage implements AccountStorage {
