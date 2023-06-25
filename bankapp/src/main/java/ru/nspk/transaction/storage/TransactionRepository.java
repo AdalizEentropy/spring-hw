@@ -16,5 +16,5 @@ public interface TransactionRepository extends CrudRepository<Transaction, Long>
     List<Transaction> findByAccountBetweenDates(
             @Param("account") long account,
             @Param("start") LocalDate start,
-            @Param("start") LocalDate end);
+            @Param("end") LocalDate end);
 }

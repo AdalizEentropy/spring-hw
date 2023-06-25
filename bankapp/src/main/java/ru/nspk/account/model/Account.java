@@ -16,13 +16,13 @@ import ru.nspk.card.model.Card;
 
 @Getter
 @Setter
-@Table("ACCOUNTS")
+@Table("accounts")
 public class Account implements Persistable<Long> {
     @Id private final long accountNumber;
     private double balance;
     private final int currency;
 
-    @MappedCollection(idColumn = "ACCOUNT_NUMBER")
+    @MappedCollection(idColumn = "account_number")
     private Set<BalanceHistoryRecord> balanceHistoryRecords;
 
     @Transient private List<Card> cards;

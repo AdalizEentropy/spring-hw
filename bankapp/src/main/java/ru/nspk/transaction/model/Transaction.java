@@ -11,11 +11,11 @@ import org.springframework.data.relational.core.mapping.Table;
 
 @Getter
 @ToString
-@Table("TRANSACTIONS")
+@Table("transactions")
 public class Transaction implements Persistable<Long> {
     @Id private final long id;
 
-    @Column(value = "TRANSACTION_TIME")
+    @Column(value = "transaction_time")
     private final LocalDateTime time;
 
     private final long accountFrom;

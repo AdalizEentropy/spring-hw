@@ -5,11 +5,11 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
-@Table("BALANCE_HISTORY")
+@Table("balance_history")
 public record BalanceHistoryRecord(
         @Id Long id,
         Long accountNumber,
-        @Column(value = "HISTORY_TIME") LocalDateTime time,
+        @Column(value = "history_time") LocalDateTime time,
         Double balance) {
 
     public BalanceHistoryRecord(Long accountNumber, LocalDateTime time, Double balance) {
