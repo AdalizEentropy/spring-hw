@@ -1,0 +1,17 @@
+bankapp:
+  transaction:
+    trx-id-prefix: 30
+    trx-id-length: 10
+  card:
+    add-card: true
+
+spring:
+  datasource:
+    url: jdbc:h2:file:./db/bankappDB
+#    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+
+logging:
+  level:
+    org.springframework.jdbc.core.JdbcTemplate: TRACE
