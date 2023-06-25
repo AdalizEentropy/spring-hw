@@ -7,7 +7,6 @@ import static ru.nspk.util.CreateTestAccounts.createAccountSender;
 import static ru.nspk.util.CreateTestTransactions.createDto;
 
 import java.time.LocalDate;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -51,7 +50,8 @@ class BankAppIntegrationTest extends BasePersistenceTest {
     }
 
     @Test
-    @Disabled("в рандомный момент времени кладутся записи в таблицу trans_histrory. С await() не смогла решить проблему")
+    @Disabled(
+            "в рандомный момент времени кладутся записи в таблицу trans_histrory. С await() не смогла решить проблему")
     void getBalance_withTransaction() {
         var trans = transactionService.createTransaction(createDto(1234567, 7654321, 100, 643));
 
@@ -170,7 +170,9 @@ class BankAppIntegrationTest extends BasePersistenceTest {
     void showHistoryWithAccount() {
         transactionService.createTransaction(createDto(1234567, 7654321, 100, 643));
         transactionService.createTransaction(createDto(7654321, 1234567, 500, 643));
-        var history = transactionService.getHistory(1234567L, LocalDate.now().minusDays(1), LocalDate.now().plusDays(1));
+        var history =
+                transactionService.getHistory(
+                        1234567L, LocalDate.now().minusDays(1), LocalDate.now().plusDays(1));
 
         assertThat(history).hasSize(2);
     }
@@ -178,7 +180,9 @@ class BankAppIntegrationTest extends BasePersistenceTest {
     @Test
     void notShowHistoryWithAccount_beforeTransaction() {
         transactionService.createTransaction(createDto(1234567, 7654321, 100, 643));
-        var history = transactionService.getHistory(1234567L, LocalDate.now().minusDays(2), LocalDate.now().minusDays(1));
+        var history =
+                transactionService.getHistory(
+                        1234567L, LocalDate.now().minusDays(2), LocalDate.now().minusDays(1));
 
         assertThat(history).isEmpty();
     }
