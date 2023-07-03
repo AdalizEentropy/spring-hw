@@ -3,7 +3,6 @@ package ru.nspk.transaction.service;
 import java.time.Clock;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,7 +12,6 @@ import ru.nspk.account.service.AccountService;
 import ru.nspk.aop.Loggable;
 import ru.nspk.bpp.Timed;
 import ru.nspk.exception.InvalidDataException;
-import ru.nspk.transaction.TransactionProperties;
 import ru.nspk.transaction.dto.TransactionReqDto;
 import ru.nspk.transaction.dto.TransactionRespDto;
 import ru.nspk.transaction.event.TrxLoggerPublisher;
@@ -30,8 +28,6 @@ public class TransactionServiceProd implements TransactionService {
     private final Clock clock;
     private final TrxLoggerPublisher trxLoggerPublisher;
     private final TransactionMapper mapper;
-    private final TransactionProperties properties;
-    private long transactionIdCounter = 1;
 
     @Loggable
     @Timed
@@ -41,13 +37,12 @@ public class TransactionServiceProd implements TransactionService {
         var acctTo = accountService.getAccount(transactionDto.getAccountTo());
         var transaction =
                 new Transaction(
-                        getNextId(),
+                        null,
                         LocalDateTime.now(clock),
                         acctFrom.getAccountNumber(),
                         acctTo.getAccountNumber(),
                         transactionDto.getAmount(),
-                        transactionDto.getCurrency(),
-                        true);
+                        transactionDto.getCurrency());
 
         accountService.changeBalance(acctFrom, transactionDto.getAmount(), BalanceOperation.DEC);
         accountService.changeBalance(acctTo, transactionDto.getAmount(), BalanceOperation.INC);
@@ -63,13 +58,12 @@ public class TransactionServiceProd implements TransactionService {
         var acctTo = accountService.getAccount(transaction.getAccountTo());
         var reverse =
                 new Transaction(
-                        getNextId(),
+                        null,
                         LocalDateTime.now(clock),
                         transaction.getAccountFrom(),
                         transaction.getAccountTo(),
                         transaction.getAmount(),
-                        transaction.getCurrency(),
-                        true);
+                        transaction.getCurrency());
 
         accountService.changeBalance(acctTo, reverse.getAmount(), BalanceOperation.DEC);
         accountService.changeBalance(acctFrom, reverse.getAmount(), BalanceOperation.INC);
@@ -95,17 +89,5 @@ public class TransactionServiceProd implements TransactionService {
                                 new InvalidDataException(
                                         String.format(
                                                 "There no such transaction %s", transactionId)));
-    }
-
-    private Long getNextId() {
-        var prefix = String.valueOf(properties.getTrxIdPrefix());
-        var currentDate = LocalDate.now(clock).format(DateTimeFormatter.ofPattern("yyMMdd"));
-        int counterLength = properties.getTrxIdLength() - prefix.length() - currentDate.length();
-
-        var format = new StringBuilder().append("%0").append(counterLength).append("d").toString();
-        var trxId =
-                Long.parseLong(prefix + currentDate + String.format(format, transactionIdCounter));
-        transactionIdCounter++;
-        return trxId;
     }
 }

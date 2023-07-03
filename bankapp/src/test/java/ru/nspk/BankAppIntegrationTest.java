@@ -60,7 +60,6 @@ class BankAppIntegrationTest extends BasePersistenceTest {
         assertThat(accountService.getAccount(7654321))
                 .isNotNull()
                 .hasFieldOrPropertyWithValue("balance", 2100.00);
-        assertThat(String.valueOf(trans.getId())).hasSize(properties.getTrxIdLength()).hasSize(10);
 
         var balanceAfterTrx =
                 accountService.getBalanceByDate(acctFrom.getAccountNumber(), LocalDate.now());

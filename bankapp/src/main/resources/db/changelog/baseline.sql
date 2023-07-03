@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS accounts
 
 CREATE TABLE IF NOT EXISTS transactions
 (
-    id bigint NOT NULL PRIMARY KEY,
+    id bigint NOT NULL PRIMARY KEY AUTO_INCREMENT,
     transaction_time timestamp NOT NULL,
     account_from bigint NOT NULL,
     account_to bigint NOT NULL,
