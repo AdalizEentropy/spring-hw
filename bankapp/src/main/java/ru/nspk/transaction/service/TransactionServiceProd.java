@@ -6,8 +6,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.nspk.account.model.enums.BalanceOperation;
 import ru.nspk.account.service.AccountService;
 import ru.nspk.aop.Loggable;
@@ -22,7 +22,6 @@ import ru.nspk.transaction.model.Transaction;
 import ru.nspk.transaction.storage.TransactionRepository;
 
 @Service
-@Profile("prod")
 @RequiredArgsConstructor
 public class TransactionServiceProd implements TransactionService {
     private final AccountService accountService;
@@ -36,6 +35,7 @@ public class TransactionServiceProd implements TransactionService {
 
     @Loggable
     @Timed
+    @Transactional
     public TransactionRespDto createTransaction(TransactionReqDto transactionDto) {
         var acctFrom = accountService.getAccount(transactionDto.getAccountFrom());
         var acctTo = accountService.getAccount(transactionDto.getAccountTo());
@@ -56,6 +56,7 @@ public class TransactionServiceProd implements TransactionService {
     }
 
     @Loggable
+    @Transactional
     public TransactionRespDto reverseTransaction(long transactionId) {
         var transaction = getTransaction(transactionId);
         var acctFrom = accountService.getAccount(transaction.getAccountFrom());

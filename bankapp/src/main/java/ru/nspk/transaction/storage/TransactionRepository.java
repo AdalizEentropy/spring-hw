@@ -17,4 +17,6 @@ public interface TransactionRepository extends CrudRepository<Transaction, Long>
             @Param("account") long account,
             @Param("start") LocalDate start,
             @Param("end") LocalDate end);
+
+    List<Transaction> findAll();
 }

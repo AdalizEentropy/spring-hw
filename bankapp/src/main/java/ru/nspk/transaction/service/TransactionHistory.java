@@ -1,7 +1,6 @@
 package ru.nspk.transaction.service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,9 +13,7 @@ public class TransactionHistory {
     protected final TransactionRepository transactionRepository;
 
     public List<Transaction> getAllHistory() {
-        List<Transaction> transactions = new ArrayList<>();
-        transactionRepository.findAll().iterator().forEachRemaining(transactions::add);
-        return transactions;
+        return transactionRepository.findAll();
     }
 
     public List<Transaction> getHistory(

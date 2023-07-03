@@ -11,7 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.event.ApplicationEvents;
 import org.springframework.test.context.event.RecordApplicationEvents;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +24,6 @@ import ru.nspk.transaction.TransactionProperties;
 import ru.nspk.transaction.event.TrxLoggerEvent;
 import ru.nspk.transaction.service.TransactionService;
 
-@ActiveProfiles("prod")
 @RecordApplicationEvents
 @Transactional
 class BankAppIntegrationTest extends BasePersistenceTest {
