@@ -31,4 +31,5 @@ dependencies {
 
     implementation(files("lib/starters-plain.jar"))
     implementation(project(mapOf("path" to ":starters")))
+    implementation(project(mapOf("path" to ":model")))
 }
