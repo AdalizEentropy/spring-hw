@@ -1,6 +1,8 @@
 rootProject.name = "spring-hw"
 include("bankapp")
 include("starters")
+include("model")
+include("webflux")
 
 pluginManagement {
     repositories {
