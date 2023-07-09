@@ -11,7 +11,9 @@ val mysqlR2dbcVersion: String by project
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.springframework.boot:spring-boot-starter-security")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.security:spring-security-test")
 
     implementation("org.mapstruct:mapstruct:$mapstructVersion")
     annotationProcessor ("org.mapstruct:mapstruct-processor:$mapstructVersion")

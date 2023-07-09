@@ -1,12 +1,10 @@
 package ru.nspk.transaction.service;
 
-import java.time.Clock;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import ru.nspk.account.model.enums.BalanceOperation;
 import ru.nspk.account.service.AccountService;
 import ru.nspk.aop.Loggable;
@@ -19,12 +17,14 @@ import ru.nspk.transaction.mapper.TransactionMapper;
 import ru.nspk.transaction.model.Transaction;
 import ru.nspk.transaction.storage.TransactionRepository;
 
+import java.time.Clock;
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class TransactionServiceProd implements TransactionService {
     private final AccountService accountService;
     private final TransactionRepository transactionRepository;
-    private final TransactionHistory history;
     private final Clock clock;
     private final TrxLoggerPublisher trxLoggerPublisher;
     private final TransactionMapper mapper;
@@ -69,16 +69,6 @@ public class TransactionServiceProd implements TransactionService {
         accountService.changeBalance(acctFrom, reverse.getAmount(), BalanceOperation.INC);
         trxLoggerPublisher.publishEvent("Transaction reversed!");
         return mapper.toTransactionRespDto(transactionRepository.save(reverse));
-    }
-
-    public List<TransactionRespDto> getAllHistory() {
-        return mapper.toListTransactionRespDto(history.getAllHistory());
-    }
-
-    public List<TransactionRespDto> getHistory(
-            Long accountNumber, LocalDate startDate, LocalDate endDate) {
-        return mapper.toListTransactionRespDto(
-                history.getHistory(accountNumber, startDate, endDate));
     }
 
     private Transaction getTransaction(long transactionId) {

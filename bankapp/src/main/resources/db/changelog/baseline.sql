@@ -28,3 +28,18 @@ CREATE TABLE IF NOT EXISTS balance_history
     balance double NOT NULL,
     CONSTRAINT fk_balance_history_to_acct FOREIGN KEY(account_number) REFERENCES accounts(account_number)
 );
+
+CREATE TABLE IF NOT EXISTS users
+(
+    username varchar(50) NOT NULL PRIMARY KEY,
+    password varchar(500) NOT NULL,
+    enabled boolean NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS authorities
+(
+    username varchar(50) NOT NULL,
+    authority varchar(50) NOT NULL,
+    CONSTRAINT fk_authorities_users FOREIGN KEY(username) REFERENCES users(username),
+    CONSTRAINT uq_username_authority UNIQUE (username, authority)
+);

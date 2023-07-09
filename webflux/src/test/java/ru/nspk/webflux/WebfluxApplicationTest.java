@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
@@ -28,6 +29,17 @@ class WebfluxApplicationTest extends TestBaseContainer {
     @MockBean private WebClient webClient;
 
     @Test
+    void notGetTransactions_withoutAuth() {
+        client.get()
+                .uri("/transactions")
+                .header(HttpHeaders.ACCEPT, "application/json")
+                .exchange()
+                .expectStatus()
+                .isUnauthorized();
+    }
+
+    @Test
+    @WithMockUser("spring")
     void getAllTransactions() {
         client.get()
                 .uri("/transactions")
@@ -42,6 +54,7 @@ class WebfluxApplicationTest extends TestBaseContainer {
     }
 
     @Test
+    @WithMockUser("spring")
     void notGetTransactions_ByAccountNumber_withoutDate() {
         client.get()
                 .uri("/transactions/12345")
@@ -57,6 +70,7 @@ class WebfluxApplicationTest extends TestBaseContainer {
     }
 
     @Test
+    @WithMockUser("spring")
     void notGetTransactions_ifNotFound() {
         Mockito.when(webService.getAccountStatus(12345)).thenReturn(Flux.just(OPEN));
 
@@ -77,6 +91,7 @@ class WebfluxApplicationTest extends TestBaseContainer {
     }
 
     @Test
+    @WithMockUser("spring")
     void getTransactions_ByAccountNumber_whenOpen() {
         Mockito.when(webService.getAccountStatus(12345)).thenReturn(Flux.just(OPEN));
 
@@ -99,6 +114,7 @@ class WebfluxApplicationTest extends TestBaseContainer {
     }
 
     @Test
+    @WithMockUser("spring")
     void getTransactions_ByAccountNumber_whenClosed() {
         Mockito.when(webService.getAccountStatus(12345)).thenReturn(Flux.just(CLOSED));
 

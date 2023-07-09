@@ -2,11 +2,11 @@ package ru.nspk;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+
 import static ru.nspk.util.CreateTestAccounts.createAccountReceiver;
 import static ru.nspk.util.CreateTestAccounts.createAccountSender;
 import static ru.nspk.util.CreateTestTransactions.createDto;
 
-import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.event.ApplicationEvents;
 import org.springframework.test.context.event.RecordApplicationEvents;
 import org.springframework.transaction.annotation.Transactional;
+
 import ru.nspk.account.model.Account;
 import ru.nspk.account.service.AccountService;
 import ru.nspk.base.TestBasePersistence;
@@ -23,6 +24,8 @@ import ru.nspk.exception.NotEnoughMoneyException;
 import ru.nspk.transaction.TransactionProperties;
 import ru.nspk.transaction.event.TrxLoggerEvent;
 import ru.nspk.transaction.service.TransactionService;
+
+import java.time.LocalDate;
 
 @RecordApplicationEvents
 @Transactional
@@ -145,42 +148,5 @@ class BankAppIntegrationTest extends TestBasePersistence {
                                 .filter(event -> event.message().equals("Transaction created!"))
                                 .count())
                 .isEqualTo(1);
-    }
-
-    @Test
-    void showHistory() {
-        transactionService.createTransaction(createDto(1234567, 7654321, 100, 643));
-        transactionService.createTransaction(createDto(1234567, 7654321, 500, 643));
-        var history = transactionService.getAllHistory();
-
-        assertThat(history).hasSize(2);
-    }
-
-    @Test
-    void showEmptyHistory() {
-        var history = transactionService.getAllHistory();
-
-        assertThat(history).isEmpty();
-    }
-
-    @Test
-    void showHistoryWithAccount() {
-        transactionService.createTransaction(createDto(1234567, 7654321, 100, 643));
-        transactionService.createTransaction(createDto(7654321, 1234567, 500, 643));
-        var history =
-                transactionService.getHistory(
-                        1234567L, LocalDate.now().minusDays(1), LocalDate.now().plusDays(1));
-
-        assertThat(history).hasSize(2);
-    }
-
-    @Test
-    void notShowHistoryWithAccount_beforeTransaction() {
-        transactionService.createTransaction(createDto(1234567, 7654321, 100, 643));
-        var history =
-                transactionService.getHistory(
-                        1234567L, LocalDate.now().minusDays(2), LocalDate.now().minusDays(1));
-
-        assertThat(history).isEmpty();
     }
 }
