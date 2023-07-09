@@ -15,6 +15,7 @@ import ru.nspk.account.model.AccountStatus;
 public class AccountHandler {
 
     public Mono<ServerResponse> getAccountStatus(ServerRequest request) {
+        request.pathVariable("accountNumber");
         return ok().contentType(MediaType.APPLICATION_JSON)
                 .body(Mono.just(AccountStatus.randomAccountStatus()), AccountStatus.class);
     }

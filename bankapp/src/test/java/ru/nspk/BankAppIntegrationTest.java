@@ -16,7 +16,7 @@ import org.springframework.test.context.event.RecordApplicationEvents;
 import org.springframework.transaction.annotation.Transactional;
 import ru.nspk.account.model.Account;
 import ru.nspk.account.service.AccountService;
-import ru.nspk.base.BasePersistenceTest;
+import ru.nspk.base.TestBasePersistence;
 import ru.nspk.card.model.CardProgram;
 import ru.nspk.exception.InvalidDataException;
 import ru.nspk.exception.NotEnoughMoneyException;
@@ -26,7 +26,7 @@ import ru.nspk.transaction.service.TransactionService;
 
 @RecordApplicationEvents
 @Transactional
-class BankAppIntegrationTest extends BasePersistenceTest {
+class BankAppIntegrationTest extends TestBasePersistence {
     @Autowired AccountService accountService;
     @Autowired TransactionService transactionService;
     @Autowired TransactionProperties properties;

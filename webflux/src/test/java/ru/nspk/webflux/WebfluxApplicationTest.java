@@ -15,13 +15,13 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import ru.nspk.transaction.dto.TransactionRespDto;
-import ru.nspk.webflux.base.BaseContainerTest;
+import ru.nspk.webflux.base.TestBaseContainer;
 import ru.nspk.webflux.service.WebService;
 
 @SpringBootTest(
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         classes = {WebfluxApplication.class})
-class WebfluxApplicationTest extends BaseContainerTest {
+class WebfluxApplicationTest extends TestBaseContainer {
 
     @Autowired private WebTestClient client;
     @MockBean private WebService webService;

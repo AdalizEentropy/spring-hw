@@ -6,7 +6,7 @@ import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.ext.ScriptUtils;
 import org.testcontainers.jdbc.JdbcDatabaseDelegate;
 
-public class BaseContainerTest {
+public class TestBaseContainer {
     private static final MySQLContainer<?> MYSQL_CONTAINER =
             new MySQLContainer<>("mysql:5.6").withInitScript("schema.sql");
 
