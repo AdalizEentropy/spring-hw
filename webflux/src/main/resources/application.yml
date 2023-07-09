@@ -13,6 +13,9 @@ spring:
       repositories:
         enabled: true
 
+web-client:
+  url: http://localhost:8082
+
 logging:
   level:
     web: DEBUG

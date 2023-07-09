@@ -1,15 +1,12 @@
 package ru.nspk.webflux.repository;
 
+import java.time.LocalDate;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Repository;
-
 import reactor.core.publisher.Flux;
-
-import ru.nspk.transaction.model.Transaction;
-
-import java.time.LocalDate;
+import ru.nspk.webflux.model.Transaction;
 
 @Repository
 public interface TransactionReactiveRepository extends ReactiveCrudRepository<Transaction, Long> {

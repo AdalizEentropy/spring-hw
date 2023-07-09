@@ -1,31 +1,29 @@
 package ru.nspk.webflux.handler;
 
 import static org.springframework.web.reactive.function.server.ServerResponse.*;
+import static ru.nspk.account.model.AccountStatus.OPEN;
 
+import java.time.LocalDate;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
-
 import reactor.core.publisher.Mono;
-
 import ru.nspk.transaction.dto.TransactionRespDto;
-import ru.nspk.transaction.mapper.TransactionMapper;
-import ru.nspk.transaction.mapper.TransactionMapperImpl;
 import ru.nspk.webflux.exception.IllegalParamsException;
+import ru.nspk.webflux.model.mapper.TransactionMapper;
 import ru.nspk.webflux.repository.TransactionReactiveRepository;
-
-import java.time.LocalDate;
-import java.util.Optional;
+import ru.nspk.webflux.service.WebService;
 
 @Component
 @RequiredArgsConstructor
 public class TransactionHistoryHandler {
     private final TransactionReactiveRepository transactionRepository;
-    private final TransactionMapper mapper = new TransactionMapperImpl();
+    private final WebService webService;
+    private final TransactionMapper mapper;
 
     public Mono<ServerResponse> getAllHistory() {
         return ok().contentType(MediaType.APPLICATION_JSON)
@@ -48,6 +46,7 @@ public class TransactionHistoryHandler {
 
         return Mono.justOrEmpty(request.pathVariable("accountNumber"))
                 .map(Long::valueOf)
+                .filterWhen(acct -> webService.getAccountStatus(acct).map(status -> status == OPEN))
                 .flatMap(
                         acctNumber ->
                                 Mono.from(

@@ -3,6 +3,7 @@ include("bankapp")
 include("starters")
 include("model")
 include("webflux")
+include("stub")
 
 pluginManagement {
     repositories {
