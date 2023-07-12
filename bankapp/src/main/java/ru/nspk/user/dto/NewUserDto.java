@@ -1,10 +1,9 @@
 package ru.nspk.user.dto;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import ru.nspk.user.model.UserRole;
-
-import java.util.List;
 
 @AllArgsConstructor
 @Getter

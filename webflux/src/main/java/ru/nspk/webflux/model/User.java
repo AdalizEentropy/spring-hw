@@ -1,7 +1,7 @@
 package ru.nspk.webflux.model;
 
+import java.util.*;
 import lombok.Getter;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceCreator;
 import org.springframework.data.annotation.Transient;
@@ -9,8 +9,6 @@ import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.*;
 
 @Table("users")
 @Getter

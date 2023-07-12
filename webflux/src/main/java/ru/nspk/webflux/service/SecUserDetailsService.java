@@ -1,19 +1,15 @@
 package ru.nspk.webflux.service;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-
 import reactor.core.publisher.Mono;
-
 import ru.nspk.webflux.model.Authority;
 import ru.nspk.webflux.model.User;
 import ru.nspk.webflux.repository.AuthorityReactiveRepository;
 import ru.nspk.webflux.repository.UserReactiveRepository;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

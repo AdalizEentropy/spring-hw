@@ -1,12 +1,9 @@
 package ru.nspk.user.controller;
 
 import jakarta.validation.constraints.NotNull;
-
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
 import ru.nspk.user.dto.NewUserDto;
 import ru.nspk.user.service.UserService;
 

@@ -1,10 +1,10 @@
 package ru.nspk.transaction.service;
 
+import java.time.Clock;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import ru.nspk.account.model.enums.BalanceOperation;
 import ru.nspk.account.service.AccountService;
 import ru.nspk.aop.Loggable;
@@ -16,9 +16,6 @@ import ru.nspk.transaction.event.TrxLoggerPublisher;
 import ru.nspk.transaction.mapper.TransactionMapper;
 import ru.nspk.transaction.model.Transaction;
 import ru.nspk.transaction.storage.TransactionRepository;
-
-import java.time.Clock;
-import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
