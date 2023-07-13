@@ -15,3 +15,17 @@ spring:
 logging:
   level:
     org.springframework.jdbc.core.JdbcTemplate: INFO
+
+management:
+  server.port: 8082
+  endpoints:
+    web:
+      exposure:
+        include: env,health,info
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+  info:
+    java:
+      enabled: true

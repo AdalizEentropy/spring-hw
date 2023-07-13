@@ -1,5 +1,15 @@
 plugins {
     id ("org.springframework.boot")
+    id("com.google.cloud.tools.jib")
+}
+
+jib {
+    container.creationTime.set("USE_CURRENT_TIMESTAMP")
+    from.image = "bellsoft/liberica-openjdk-alpine-musl:17.0.2-9"
+    to {
+        image = "bankapp-image"
+        tags = setOf(project.version.toString())
+    }
 }
 
 val lombokVersion: String by project
@@ -14,6 +24,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
 

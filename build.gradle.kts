@@ -23,6 +23,7 @@ idea {
 
 allprojects {
     group = "ru.nspk"
+    version = "1.0.0"
 
     repositories {
         maven {

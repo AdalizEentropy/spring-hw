@@ -19,13 +19,13 @@ public class User implements UserDetails {
 
     @MappedCollection(idColumn = "username")
     @Transient
-    private final List<Authority> authorities;
+    private final List<Role> roles;
 
-    public User(String username, String password, boolean enabled, List<Authority> authorities) {
+    public User(String username, String password, boolean enabled, List<Role> roles) {
         this.username = username;
         this.password = password;
         this.enabled = enabled;
-        this.authorities = authorities;
+        this.roles = roles;
     }
 
     @PersistenceCreator
@@ -34,7 +34,7 @@ public class User implements UserDetails {
     }
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+        return roles;
     }
 
     @Override

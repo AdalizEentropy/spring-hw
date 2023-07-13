@@ -31,6 +31,8 @@ public class WebSecurityConfig {
                                 authorizeHttpRequests
                                         .requestMatchers("login", "users/register", "error")
                                         .permitAll()
+                                        .requestMatchers("/actuator/**")
+                                        .hasRole("ADMIN")
                                         .anyRequest()
                                         .authenticated())
                 .formLogin(withDefaults())

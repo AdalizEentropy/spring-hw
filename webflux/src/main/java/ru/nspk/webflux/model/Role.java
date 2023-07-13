@@ -8,7 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 @Table("authorities")
 @Getter
 @AllArgsConstructor
-public class Authority implements GrantedAuthority {
+public class Role implements GrantedAuthority {
     private final String username;
     private final String authority;
 }
