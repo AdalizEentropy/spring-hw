@@ -25,6 +25,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springframework.kafka:spring-kafka")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
 
@@ -41,6 +42,7 @@ dependencies {
 
     testImplementation ("org.testcontainers:testcontainers")
     testImplementation ("org.testcontainers:mysql")
+    testImplementation ("org.testcontainers:kafka")
 
     implementation(files("lib/starters-plain.jar"))
     implementation(project(mapOf("path" to ":starters")))

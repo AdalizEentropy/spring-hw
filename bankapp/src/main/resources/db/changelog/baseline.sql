@@ -43,3 +43,11 @@ CREATE TABLE IF NOT EXISTS authorities
     CONSTRAINT fk_authorities_users FOREIGN KEY(username) REFERENCES users(username),
     CONSTRAINT uq_username_authority UNIQUE (username, authority)
 );
+
+CREATE TABLE IF NOT EXISTS transaction_history
+(
+    id bigint NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    transaction_id bigint NOT NULL,
+    history_time timestamp NOT NULL,
+    CONSTRAINT fk_trx_history_trx FOREIGN KEY(transaction_id) REFERENCES transactions(id)
+);

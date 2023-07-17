@@ -10,6 +10,7 @@ import ru.nspk.account.service.AccountService;
 import ru.nspk.aop.Loggable;
 import ru.nspk.bpp.Timed;
 import ru.nspk.exception.InvalidDataException;
+import ru.nspk.kafka.KafkaProducerService;
 import ru.nspk.transaction.dto.TransactionReqDto;
 import ru.nspk.transaction.dto.TransactionRespDto;
 import ru.nspk.transaction.event.TrxLoggerPublisher;
@@ -25,6 +26,7 @@ public class TransactionServiceProd implements TransactionService {
     private final Clock clock;
     private final TrxLoggerPublisher trxLoggerPublisher;
     private final TransactionMapper mapper;
+    private final KafkaProducerService<Transaction> kafkaProducer;
 
     @Loggable
     @Timed
@@ -44,7 +46,9 @@ public class TransactionServiceProd implements TransactionService {
         accountService.changeBalance(acctFrom, transactionDto.getAmount(), BalanceOperation.DEC);
         accountService.changeBalance(acctTo, transactionDto.getAmount(), BalanceOperation.INC);
         trxLoggerPublisher.publishEvent("Transaction created!");
-        return mapper.toTransactionRespDto(transactionRepository.save(transaction));
+        var savedTrx = transactionRepository.save(transaction);
+        kafkaProducer.send(savedTrx);
+        return mapper.toTransactionRespDto(savedTrx);
     }
 
     @Loggable
@@ -65,7 +69,9 @@ public class TransactionServiceProd implements TransactionService {
         accountService.changeBalance(acctTo, reverse.getAmount(), BalanceOperation.DEC);
         accountService.changeBalance(acctFrom, reverse.getAmount(), BalanceOperation.INC);
         trxLoggerPublisher.publishEvent("Transaction reversed!");
-        return mapper.toTransactionRespDto(transactionRepository.save(reverse));
+        var savedTrx = transactionRepository.save(reverse);
+        kafkaProducer.send(savedTrx);
+        return mapper.toTransactionRespDto(savedTrx);
     }
 
     private Transaction getTransaction(long transactionId) {

@@ -4,6 +4,10 @@ bankapp:
     trx-id-length: 10
   card:
     add-card: true
+  kafka:
+    trans-topic: hist-topic
+    trans-partition: 2
+    trans-replica: 1
 
 spring:
   datasource:
@@ -11,6 +15,10 @@ spring:
     driverClassName: com.mysql.cj.jdbc.Driver
     username: user
     password: password
+  kafka:
+    consumer:
+      group-id: bank-app-consumers
+    bootstrap-servers: "localhost:9092"
 
 logging:
   level:

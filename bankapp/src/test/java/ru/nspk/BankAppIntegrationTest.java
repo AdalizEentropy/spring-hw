@@ -2,6 +2,8 @@ package ru.nspk;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
 import static ru.nspk.util.CreateTestAccounts.createAccountReceiver;
 import static ru.nspk.util.CreateTestAccounts.createAccountSender;
 import static ru.nspk.util.CreateTestTransactions.createDto;
@@ -10,7 +12,9 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.event.ApplicationEvents;
 import org.springframework.test.context.event.RecordApplicationEvents;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +24,7 @@ import ru.nspk.base.TestBasePersistence;
 import ru.nspk.card.model.CardProgram;
 import ru.nspk.exception.InvalidDataException;
 import ru.nspk.exception.NotEnoughMoneyException;
+import ru.nspk.kafka.TransHistoryKafkaConsumerService;
 import ru.nspk.transaction.TransactionProperties;
 import ru.nspk.transaction.event.TrxLoggerEvent;
 import ru.nspk.transaction.service.TransactionService;
@@ -31,6 +36,7 @@ class BankAppIntegrationTest extends TestBasePersistence {
     @Autowired TransactionService transactionService;
     @Autowired TransactionProperties properties;
     @Autowired ApplicationEvents applicationEvents;
+    @MockBean TransHistoryKafkaConsumerService consumerService;
     Account acctFrom = createAccountSender();
     Account acctTo = createAccountReceiver();
 
@@ -112,6 +118,8 @@ class BankAppIntegrationTest extends TestBasePersistence {
         assertThat(accountService.getAccount(7654321))
                 .isNotNull()
                 .hasFieldOrPropertyWithValue("balance", 2000.00);
+
+        Mockito.verify(consumerService, times(2)).accept(any());
     }
 
     @Test

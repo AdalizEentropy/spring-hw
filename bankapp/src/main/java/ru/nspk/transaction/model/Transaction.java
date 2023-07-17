@@ -1,5 +1,6 @@
 package ru.nspk.transaction.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
 import lombok.*;
 import org.springframework.data.annotation.Id;
@@ -23,12 +24,12 @@ public class Transaction {
 
     @PersistenceCreator
     public Transaction(
-            Long id,
-            LocalDateTime time,
-            long accountFrom,
-            long accountTo,
-            double amount,
-            int currency) {
+            @JsonProperty("id") Long id,
+            @JsonProperty("time") LocalDateTime time,
+            @JsonProperty("accountFrom") long accountFrom,
+            @JsonProperty("accountTo") long accountTo,
+            @JsonProperty("amount") double amount,
+            @JsonProperty("currency") int currency) {
         this.id = id;
         this.time = time;
         this.accountFrom = accountFrom;
