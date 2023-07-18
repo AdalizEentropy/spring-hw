@@ -16,8 +16,6 @@ spring:
     username: user
     password: password
   kafka:
-    consumer:
-      group-id: bank-app-consumers
     bootstrap-servers: "localhost:9092"
 
 logging:

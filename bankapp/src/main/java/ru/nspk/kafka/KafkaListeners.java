@@ -12,32 +12,36 @@ import ru.nspk.transaction.model.Transaction;
 @Component
 @RequiredArgsConstructor
 public class KafkaListeners {
-    private final KafkaConsumerService<String> stringKafkaConsumerService;
-    private final KafkaConsumerService<Transaction> transactionKafkaConsumerService;
+    private final LogKafkaConsumerService logKafkaConsumerService;
+    private final TransHistoryKafkaConsumerService transHistKafkaConsumerService;
 
     @KafkaListener(
             topics = "${bankapp.kafka.trans-topic}",
-            containerFactory = "kafkaListenerStringContainerFactory")
-    public void listenAsString(
-            ConsumerRecord<Long, String> consumerRecord, @Payload String payload) {
+            clientIdPrefix = "logConsumer",
+            groupId = "bank-app-consumers-for-log",
+            containerFactory = "kafkaListenerObjectContainerFactory")
+    public void logTransaction(
+            ConsumerRecord<Long, Transaction> consumerRecord, @Payload Transaction payload) {
         log.info(
-                "Received key: {}, String payload: {}, Record: {}",
+                "Received key for log: {}, Payload: {}, Record: {}",
                 consumerRecord.key(),
                 payload,
                 consumerRecord);
-        stringKafkaConsumerService.accept(payload);
+        logKafkaConsumerService.accept(payload);
     }
 
     @KafkaListener(
             topics = "${bankapp.kafka.trans-topic}",
+            clientIdPrefix = "saveConsumer",
+            groupId = "bank-app-consumers-for-save",
             containerFactory = "kafkaListenerObjectContainerFactory")
-    public void listenAsObject(
+    public void saveTransaction(
             ConsumerRecord<Long, Transaction> consumerRecord, @Payload Transaction payload) {
         log.info(
-                "Received key: {}, Object payload: {}, Record: {}",
+                "Received key for save: {}, Payload: {}, Record: {}",
                 consumerRecord.key(),
                 payload,
                 consumerRecord);
-        transactionKafkaConsumerService.accept(payload);
+        transHistKafkaConsumerService.accept(payload);
     }
 }

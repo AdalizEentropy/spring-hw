@@ -10,7 +10,7 @@ import ru.nspk.transaction.storage.TransactionHistoryRepository;
 
 @Service
 @RequiredArgsConstructor
-public class TransHistoryKafkaConsumerService implements KafkaConsumerService<Transaction> {
+public class TransHistoryKafkaConsumerService {
     private final TransactionHistoryRepository repository;
     private final Clock clock;
 

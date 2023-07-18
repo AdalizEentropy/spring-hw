@@ -5,7 +5,6 @@ import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.LongSerializer;
-import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -36,24 +35,6 @@ public class KafkaConfig {
     @Bean
     public KafkaTemplate<Long, Transaction> kafkaTemplate() {
         return new KafkaTemplate<>(customKafkaProducerFactory());
-    }
-
-    @Bean
-    public ConsumerFactory<Long, String> stringKafkaConsumerFactory() {
-        return new DefaultKafkaConsumerFactory<>(
-                kafkaProperties.buildConsumerProperties(),
-                new LongDeserializer(),
-                new StringDeserializer());
-    }
-
-    @Bean
-    public ConcurrentKafkaListenerContainerFactory<Long, String>
-            kafkaListenerStringContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<Long, String> factory =
-                new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(stringKafkaConsumerFactory());
-
-        return factory;
     }
 
     @Bean
