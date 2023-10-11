@@ -7,10 +7,9 @@ include("stub")
 
 pluginManagement {
     repositories {
-        maven {
-            name = "NSPK Nexus 3 Public"
-            url = uri("https://nexus.mir/repository/maven-proxy-group")
-        }
+        mavenCentral()
+        gradlePluginPortal()
+        google()
         mavenLocal()
     }
 

@@ -26,10 +26,9 @@ allprojects {
     version = "1.0.0"
 
     repositories {
-        maven {
-            name = "NSPK Nexus 3 Public"
-            url = uri("https://nexus.mir/repository/maven-proxy-group")
-        }
+        gradlePluginPortal()
+        google()
+        mavenCentral()
         mavenLocal()
     }
 
